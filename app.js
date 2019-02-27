@@ -34,15 +34,17 @@ const server = http.createServer((request, response) => {
       console.log(chunk); //This is not human readable
       body.push(chunk);
     });
-    request.on("end", () => {
+    return request.on("end", () => {
       const parsedBody = Buffer.concat(body).toString();
       const message = parsedBody.split("=")[1];
       console.log(message);
-      fs.writeFileSync("message.txt", message);
+      //   fs.writeFileSync("message.txt", message); //writeFileSync block the next line code until it is done
+      fs.writeFile("message.txt", message, err => {
+        response.statusCode = 302;
+        response.setHeader("Location", "/"); //Set redirect request to home
+        return response.end();
+      });
     });
-    response.statusCode = 302;
-    response.setHeader("Location", "/"); //Set redirect request to home
-    return response.end();
   }
   response.setHeader("Content-Type", "text/html");
   response.write("<html>");
