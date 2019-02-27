@@ -1,6 +1,7 @@
 //Create http server
 //1. Import http built in node js module
 const http = require("http");
+const fs = require("fs");
 
 //2. use createServer() which returns server object and requires function as a argument
 const server = http.createServer((request, response) => {
@@ -13,13 +14,35 @@ const server = http.createServer((request, response) => {
   // process.exit();
 
   const url = request.url;
+  const method = request.method;
+
   if (url === "/") {
     response.setHeader("Content-Type", "text/html");
     response.write("<html>");
     response.write("<head><title>My First NodeJS</title></head>");
-    response.write("<body><form><input type='text'/><button type='submit'>Submit</button></form></body>");
+    response.write(
+      "<body><form action='/message' method='POST'><input type='text' name='message'><button type='submit'>Submit</button></form></body>"
+    );
     response.write("</html>");
     return response.end(); //After this line you should not add res.write();, it will throw an error
+  }
+
+  if (url === "/message" && method === "POST") {
+    const body = [];
+    //Register a listener to get
+    request.on("data", chunk => {
+      console.log(chunk); //This is not human readable
+      body.push(chunk);
+    });
+    request.on("end", () => {
+      const parsedBody = Buffer.concat(body).toString();
+      const message = parsedBody.split("=")[1];
+      console.log(message);
+      fs.writeFileSync("message.txt", message);
+    });
+    response.statusCode = 302;
+    response.setHeader("Location", "/"); //Set redirect request to home
+    return response.end();
   }
   response.setHeader("Content-Type", "text/html");
   response.write("<html>");
