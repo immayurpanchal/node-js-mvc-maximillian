@@ -1,20 +1,18 @@
 //Create http server
 //1. Import http built in node js module
 const http = require("http");
-const routes = require('./routes');
 
+const express = require('express');
 
-//2. use createServer() which returns server object and requires function as a argument
-// const server = http.createServer((request, response) => {
-//   console.log(request.url);
-//   console.log(">>>>>>>>>>>");
-//   console.log(request.method);
-//   console.log(">>>>>>>>>>>");
-//   console.log(request.headers);
+const app = express();
 
-//   process.exit();
-// });
+app.use((req, res, next) => { 
+    console.log("In the middleware");
+});
 
+app.use((req, res, next) => { 
+    console.log("In another middleware");
+});
 //passing handler function reference to 
 const server = http.createServer(routes.handler);
 
