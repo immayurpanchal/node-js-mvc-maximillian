@@ -1,0 +1,24 @@
+{
+  "name": "node_practise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/immayurpanchal/node-js-mvc-maximillian.git"
+  },
+  "author": "Mayur Panchal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/immayurpanchal/node-js-mvc-maximillian/issues"
+  },
+  "homepage": "https://github.com/immayurpanchal/node-js-mvc-maximillian#readme"
+}
