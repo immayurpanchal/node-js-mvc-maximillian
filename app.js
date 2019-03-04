@@ -1,16 +1,23 @@
 //Create http server
 //1. Import http built in node js module
 const http = require("http");
-
+const bodyParser = require("body-parser");
 const express = require("express");
 
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use("/add-product", (req, res, next) => {
-  console.log("In the middleware");
-  next(); //It won't go to next middleware if next() is not written
+  res.send(
+    '<form action="/product" method="POST"><input type="text" name="title" placeholder="title"/><button type="submit">Submit</button></form>'
+  );
 });
 
+app.use("/product", (req, res, next) => {
+  console.log(req.body);
+  res.redirect("/"); //Redirect request to defined path
+});
 app.use("/", (req, res, next) => {
   console.log("In another middleware");
   res.send(
